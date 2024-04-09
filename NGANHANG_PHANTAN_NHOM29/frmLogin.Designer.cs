@@ -75,6 +75,7 @@
             // 
             // LG_comboxChiNhanh
             // 
+            this.LG_comboxChiNhanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LG_comboxChiNhanh.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LG_comboxChiNhanh.FormattingEnabled = true;
             this.LG_comboxChiNhanh.Location = new System.Drawing.Point(211, 19);

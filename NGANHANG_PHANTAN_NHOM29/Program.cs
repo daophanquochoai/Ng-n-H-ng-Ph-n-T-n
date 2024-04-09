@@ -55,7 +55,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
         }
 
-        public static SqlDataReader ExecSqlDataReader(String cmd) //, String connectionstring
+        public static SqlDataReader ExecSqlDataReader(String cmd) 
         {
             SqlDataReader myReader;
             SqlCommand sqlcmd = new SqlCommand(cmd, Program.conn);
@@ -94,7 +94,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             if (Program.conn.State == ConnectionState.Closed) Program.conn.Open();
             try
             {
-                sqlcmd.ExecuteNonQuery(); //conn.Close()
+                sqlcmd.ExecuteNonQuery(); 
                 MessageBox.Show("Thao tác thành công!!", "", MessageBoxButtons.OK);
             }
             catch (SqlException ex)

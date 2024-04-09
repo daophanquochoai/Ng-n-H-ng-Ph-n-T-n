@@ -67,41 +67,73 @@ namespace NGANHANG_PHANTAN_NHOM29
             LG_comboxChiNhanh.SelectedIndex = 1;
             LG_comboxChiNhanh.SelectedIndex = 0;
         }
-
+        private bool KiemTraNhanVienDaXoa(string manv)
+        {
+            try
+            {
+                Program.myReader.Close();
+                String cmd = "EXEC KiemTraNhanVienXoaChua '" + manv + "'";
+                Program.myReader = Program.ExecSqlDataReader(cmd);
+                if(Program.myReader.HasRows)
+                {
+                    MessageBox.Show("Nhân viên đã bị xóa !!", "Thông Báo", MessageBoxButtons.OK);
+                    Program.myReader.Close();
+                    return true;
+                }
+                else
+                {
+                    Program.myReader.Close();
+                    return false;
+                }
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show("Lỗi kiểm tra nhân viên xóa chưa!!!", "Thông Báo", MessageBoxButtons.OK);
+                return true;
+            }
+        }
         private void LG_buttonDangNhap_Click(object sender, EventArgs e)
         {
-            if( LG_textboxTaiKhoan.Text.Trim() == "" || LG_textboxMatKhau.Text.Trim() == "")
+            try
             {
-                MessageBox.Show("Login name và mật khẩu không được trống", "", MessageBoxButtons.OK);
+                if (LG_textboxTaiKhoan.Text.Trim() == "" || LG_textboxMatKhau.Text.Trim() == "")
+                {
+                    MessageBox.Show("Login name và mật khẩu không được trống", "", MessageBoxButtons.OK);
+                    return;
+                }
+                Program.mlogin = LG_textboxTaiKhoan.Text;
+                Program.password = LG_textboxMatKhau.Text;
+                if (Program.KetNoi() == 0) return;
+
+                Program.mChiNhanh = LG_comboxChiNhanh.SelectedIndex;
+                Program.mloginDN = Program.mlogin;
+                Program.passwordDN = Program.password;
+                // SP đăng nhập
+                string strDangNhap = "EXEC [dbo].[SP_LayThongTinNhanVien] '" + Program.mlogin + "'";
+
+                Program.myReader = Program.ExecSqlDataReader(strDangNhap);
+                if (Program.myReader == null) return;
+                Program.myReader.Read();
+                // myReader đọc trả ra giá trị
+                Program.username = Program.myReader.GetString(0);
+                if (Convert.IsDBNull(Program.username))
+                {
+                    MessageBox.Show("Login bạn nhập không có quyền truy cập dữ liệu.\nBạn xem lại user name và password.\n ", "", MessageBoxButtons.OK);
+                    return;
+                }
+                Program.mHoten = Program.myReader.GetString(1);
+                Program.mGroup = Program.myReader.GetString(2);
+                Program.mTenChiNhanh = LG_comboxChiNhanh.Text;
+                Program.myReader.Close();
+                if (KiemTraNhanVienDaXoa(Program.username)) return;
+                MessageBox.Show("Đăng nhập thành công tài khoản \n- Mã NV: " + Program.username + "\n- Tên: " + Program.mHoten + "\n- Nhóm: " + Program.mGroup, "", MessageBoxButtons.OK);
+                Program.frmChinh.hienThiTool();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Lỗi quá trình đăng nhập!!!", "Thông Baó", MessageBoxButtons.OK);
                 return;
             }
-            Program.mlogin = LG_textboxTaiKhoan.Text;
-            Program.password = LG_textboxMatKhau.Text;
-            if (Program.KetNoi() == 0) return;
-
-            Program.mChiNhanh = LG_comboxChiNhanh.SelectedIndex;
-            Program.mloginDN = Program.mlogin;
-            Program.passwordDN = Program.password;
-            // SP đăng nhập
-            string strDangNhap = "EXEC [dbo].[SP_LayThongTinNhanVien] '" + Program.mlogin + "'";
-
-            Program.myReader = Program.ExecSqlDataReader(strDangNhap);
-            if (Program.myReader == null) return;
-            Program.myReader.Read();
-            // myReader đọc trả ra giá trị
-            Program.username = Program.myReader.GetString(0);
-            // k
-            if(Convert.IsDBNull(Program.username))
-            {
-                MessageBox.Show("Login bạn nhập không có quyền truy cập dữ liệu.\nBạn xem lại user name và password.\n ", "", MessageBoxButtons.OK);
-                return;
-            }
-            Program.mHoten = Program.myReader.GetString(1);
-            Program.mGroup = Program.myReader.GetString(2);
-            Program.mTenChiNhanh = LG_comboxChiNhanh.Text;
-            Program.myReader.Close();
-            MessageBox.Show("Đăng nhập thành công tài khoản \n- Mã NV: " + Program.username + "\n- Tên: " + Program.mHoten + "\n- Nhóm: " + Program.mGroup, "", MessageBoxButtons.OK);
-            Program.frmChinh.hienThiTool();
         }
 
         private void LG_buttonThoat_Click(object sender, EventArgs e)

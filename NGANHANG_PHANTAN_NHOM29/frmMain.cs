@@ -15,7 +15,6 @@ namespace NGANHANG_PHANTAN_NHOM29
         {
             InitializeComponent();
             BC.Visible = NV.Visible = DM.Visible = false;
-            // nếu tồn tại rồi thì active ngược lại thêm vào
             Form frm = this.CheckExists(typeof(frmLogin));
             if (frm != null) frm.Activate();
             else
@@ -72,19 +71,33 @@ namespace NGANHANG_PHANTAN_NHOM29
 
         private void HT_buttonDangKy_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            if( MessageBox.Show("Xác nhận đăng xuấ khỏi tài khoản \n - Mã NV : " + Program.username + "\n - Tên : " + Program.mHoten + "\n - Nhóm : " + Program.mGroup, "Xác Nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            try
             {
-                // Đóng các phần tử con
-                foreach( Form frm in MdiChildren)
+                if (MessageBox.Show("Xác nhận đăng xuất khỏi tài khoản \n - Mã NV : " + Program.username + "\n - Tên : " + Program.mHoten + "\n - Nhóm : " + Program.mGroup, "Xác Nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    frm.Close();
+                    string cmd = "EXEC TerminateSessionsForLogin '" + Program.mlogin + "'";
+                    Program.ExecSqlNonQuery(cmd);
+                    if (Program.conn != null && Program.conn.State == ConnectionState.Open)
+                    {
+                        Program.conn.Close();
+                        Program.conn.Dispose();
+                    }
+                    foreach (Form frm in MdiChildren)
+                    {
+                        frm.Close();
+                    }
+                    STS_MANV.Text = "MANV";
+                    STS_HOVATEN.Text = "HOVATEN";
+                    STS_NHOM.Text = "NHOM";
+                    BC.Visible = DM.Visible = NV.Visible = false;
+                    HT_buttonDangKy.Enabled = HT_buttonTaoTaiKhoan.Enabled = false;
+                    HT_buttonDangNhap.Enabled = true;
                 }
-                STS_MANV.Text = "MANV";
-                STS_HOVATEN.Text = "HOVATEN";
-                STS_NHOM.Text = "NHOM";
-                BC.Visible = DM.Visible = NV.Visible = false;
-                HT_buttonDangKy.Enabled = HT_buttonTaoTaiKhoan.Enabled = false;
-                HT_buttonDangNhap.Enabled = true;
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show("Không thể đăng xuất!!!", "", MessageBoxButtons.OK);
+                return;
             }
         }
 

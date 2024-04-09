@@ -43,6 +43,7 @@
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.memo = new DevExpress.XtraEditors.MemoEdit();
             this.TK_comboChiNhanh = new System.Windows.Forms.ComboBox();
@@ -79,6 +80,9 @@
             this.colSODT = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMACN = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTrangThaiXoa = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.xóaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thayĐổiTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -94,6 +98,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetEmployeeNotHaveLoginBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetEmployeeNotHaveLoginGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // barManager1
@@ -111,9 +116,10 @@
             this.TK_barTaoTaiKhoan,
             this.TK_barTaiLaiTrang,
             this.TK_barPhucHoi,
-            this.TK_barThoat});
+            this.TK_barThoat,
+            this.barButtonItem1});
             this.barManager1.MainMenu = this.bar2;
-            this.barManager1.MaxItemId = 4;
+            this.barManager1.MaxItemId = 5;
             this.barManager1.StatusBar = this.bar3;
             // 
             // bar1
@@ -155,6 +161,8 @@
             this.TK_barTaiLaiTrang.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("TK_barTaiLaiTrang.ImageOptions.Image")));
             this.TK_barTaiLaiTrang.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("TK_barTaiLaiTrang.ImageOptions.LargeImage")));
             this.TK_barTaiLaiTrang.Name = "TK_barTaiLaiTrang";
+            this.TK_barTaiLaiTrang.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barTaiLaiTrang_ItemClick);
+            this.TK_barTaiLaiTrang.ItemDoubleClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barTaiLaiTrang_ItemDoubleClick);
             // 
             // TK_barPhucHoi
             // 
@@ -163,6 +171,7 @@
             this.TK_barPhucHoi.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("TK_barPhucHoi.ImageOptions.Image")));
             this.TK_barPhucHoi.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("TK_barPhucHoi.ImageOptions.LargeImage")));
             this.TK_barPhucHoi.Name = "TK_barPhucHoi";
+            this.TK_barPhucHoi.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barPhucHoi_ItemClick);
             // 
             // TK_barThoat
             // 
@@ -216,6 +225,14 @@
             this.barDockControlRight.Manager = this.barManager1;
             this.barDockControlRight.Size = new System.Drawing.Size(0, 663);
             // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Caption = "Xóa";
+            this.barButtonItem1.Id = 4;
+            this.barButtonItem1.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.ImageOptions.Image")));
+            this.barButtonItem1.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("barButtonItem1.ImageOptions.LargeImage")));
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
             // panelControl1
             // 
             this.panelControl1.Controls.Add(this.memo);
@@ -229,10 +246,12 @@
             // 
             // memo
             // 
+            this.memo.EditValue = "";
+            this.memo.Enabled = false;
             this.memo.Location = new System.Drawing.Point(694, 19);
             this.memo.MenuManager = this.barManager1;
             this.memo.Name = "memo";
-            this.memo.Size = new System.Drawing.Size(510, 66);
+            this.memo.Size = new System.Drawing.Size(528, 66);
             this.memo.TabIndex = 3;
             this.memo.EditValueChanged += new System.EventHandler(this.memoEdit1_EditValueChanged);
             // 
@@ -314,6 +333,8 @@
             this.frmCreateLogin_GetLoginsOfBranchGridControl.TabIndex = 1;
             this.frmCreateLogin_GetLoginsOfBranchGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
+            this.frmCreateLogin_GetLoginsOfBranchGridControl.Click += new System.EventHandler(this.frmCreateLogin_GetLoginsOfBranchGridControl_Click);
+            this.frmCreateLogin_GetLoginsOfBranchGridControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.frmCreateLogin_GetLoginsOfBranchGridControl_MouseDown);
             // 
             // gridView2
             // 
@@ -541,6 +562,28 @@
             this.colTrangThaiXoa.Visible = true;
             this.colTrangThaiXoa.VisibleIndex = 7;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xóaToolStripMenuItem,
+            this.thayĐổiTàiKhoảnToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(201, 52);
+            // 
+            // xóaToolStripMenuItem
+            // 
+            this.xóaToolStripMenuItem.Name = "xóaToolStripMenuItem";
+            this.xóaToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
+            this.xóaToolStripMenuItem.Text = "Xóa";
+            this.xóaToolStripMenuItem.Click += new System.EventHandler(this.xóaToolStripMenuItem_Click);
+            // 
+            // thayĐổiTàiKhoảnToolStripMenuItem
+            // 
+            this.thayĐổiTàiKhoảnToolStripMenuItem.Name = "thayĐổiTàiKhoảnToolStripMenuItem";
+            this.thayĐổiTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
+            this.thayĐổiTàiKhoảnToolStripMenuItem.Text = "Thay đổi tài khoản";
+            // 
             // frmTaoTaiKhoan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -574,6 +617,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetEmployeeNotHaveLoginBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetEmployeeNotHaveLoginGridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -629,5 +673,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn colMACN;
         private DevExpress.XtraGrid.Columns.GridColumn colTrangThaiXoa;
         private DevExpress.XtraEditors.MemoEdit memo;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem xóaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem thayĐổiTàiKhoảnToolStripMenuItem;
     }
 }

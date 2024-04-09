@@ -350,6 +350,7 @@
             // 
             // KH_comboboxChiNhanh
             // 
+            this.KH_comboboxChiNhanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.KH_comboboxChiNhanh.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KH_comboboxChiNhanh.FormattingEnabled = true;
             this.KH_comboboxChiNhanh.Location = new System.Drawing.Point(181, 12);

@@ -19,14 +19,15 @@ namespace NGANHANG_PHANTAN_NHOM29
         public frmKhachHang()
         {
             InitializeComponent();
-            dS.EnforceConstraints = false;
-            this.khachHangTableAdapter.Connection.ConnectionString = Program.connstr;
         }
 
         private void frmKhachHang_Load(object sender, EventArgs e)
         {
             try
             {
+                dS.EnforceConstraints = false;
+                Console.WriteLine(Program.connstr);
+                this.khachHangTableAdapter.Connection.ConnectionString = Program.connstr;
                 this.khachHangTableAdapter.Fill(this.dS.KhachHang);
                 macn = Program.mTenChiNhanh;
                 KH_comboboxChiNhanh.DataSource = Program.bds_dspm;
@@ -42,8 +43,9 @@ namespace NGANHANG_PHANTAN_NHOM29
                 else
                 {
                     KH_barThem.Enabled = KH_barHieuChinh.Enabled = KH_barXoa.Enabled = true;
-                    KH_comboboxChiNhanh.Visible = false;
+                    KH_comboboxChiNhanh.Enabled = false;
                 }
+                KH_comboboxChiNhanh.SelectedIndex = 0;
             }
             catch( Exception ex)
             {
@@ -108,7 +110,28 @@ namespace NGANHANG_PHANTAN_NHOM29
             buttonAdd_Clicked = true;
             KH_comboboxPhai.SelectedIndex = 1;
         }
-
+        private bool kiemTraSDT()
+        {
+            if (!KH_textboxSoDienThoai.Text.All(Char.IsDigit))
+            {
+                MessageBox.Show("Số điện thoại không hợp lệ", "", MessageBoxButtons.OK);
+                KH_textboxSoDienThoai.Focus();
+                return false;
+            }
+            if (KH_textboxSoDienThoai.Text.Length != 10)
+            {
+                MessageBox.Show("Số điện thoại nhân viên không đúng 10 chữ số", "", MessageBoxButtons.OK);
+                KH_textboxSoDienThoai.Focus();
+                return false;
+            }
+            if (KH_textboxSoDienThoai.Text[0] != '0')
+            {
+                MessageBox.Show("Số điện thoại nhân viên chưa đúng định dạng", "", MessageBoxButtons.OK);
+                KH_textboxSoDienThoai.Focus();
+                return false;
+            }
+            return true;
+        }
         private void KH_barLuu_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             String CMND = ((DataRowView)khachHangBindingSource[khachHangBindingSource.Position])["CMND"].ToString();
@@ -118,9 +141,15 @@ namespace NGANHANG_PHANTAN_NHOM29
                 KH_textboxCMND.Focus();
                 return;
             }
+            if(!KH_textboxCMND.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("CMND không chứa kí tự", "Thông Báo", MessageBoxButtons.OK);
+                KH_textboxCMND.Focus();
+                return;
+            }
             if( KH_dateNgayCap.DateTime > DateTime.Now || KH_dateNgayCap.Text.Trim() == "")
             {
-                MessageBox.Show("Ngày cấp không được đẻ trống!!!", "Xác Nhận", MessageBoxButtons.OK);
+                MessageBox.Show("Ngày cấp không hợp lệ!!!", "Xác Nhận", MessageBoxButtons.OK);
                 KH_dateNgayCap.Focus();
                 return;
             }
@@ -142,30 +171,31 @@ namespace NGANHANG_PHANTAN_NHOM29
                 KH_textboxDiaChi.Focus();
                 return;
             }
-            if (KH_textboxSoDienThoai.Text.Trim() == "")
+            if ( !kiemTraSDT()) return;
+            if ( buttonAdd_Clicked == true || KH_textboxCMND.Text != CMND) 
             {
-                MessageBox.Show("Số điện thoại không được để trống!!!", "Xác Nhận", MessageBoxButtons.OK);
-                KH_textboxSoDienThoai.Focus();
-                return;
-            }
-            if( KH_textboxSoDienThoai.Text.Length != 10)
-            {
-                MessageBox.Show("Số điện thoại phải đúng 10 chữ số!!!", "Xác Nhận", MessageBoxButtons.OK);
-                KH_textboxSoDienThoai.Focus();
-                return;
-            }
-            if( buttonAdd_Clicked == true || KH_textboxCMND.Text != CMND) // khi bấm update và trùng CMND thì bỏ qua
-            {
-                Program.myReader.Close();
-                string cmd = "EXEC [dbo].[frmKhachHang_DuplicateCMND] '" + KH_textboxCMND + "'";
-                Program.myReader = Program.ExecSqlDataReader(cmd);
-                Program.myReader.Read();
-                if (Program.myReader.HasRows)
+                buttonAdd_Clicked = false;
+                try
                 {
-                    MessageBox.Show("CMND khách hàng đã tồn tại \nVui lòng nhập lại", "", MessageBoxButtons.OK);
+                    Program.myReader.Close();
+                    string cmd = "EXEC [dbo].[frmKhachHang_DuplicateCMND] '" + KH_textboxCMND.Text + "'";
+                    Program.myReader = Program.ExecSqlDataReader(cmd);
+                    if (Program.myReader.HasRows)
+                    {
+                        MessageBox.Show("CMND khách hàng đã tồn tại \nVui lòng nhập lại", "", MessageBoxButtons.OK);
+                        Program.myReader.Close();
+                        return;
+                    }
+                    else
+                    {
+                        Program.myReader.Close();
+                    }
+                }
+                catch( Exception ex)
+                {
+                    MessageBox.Show("Không thể kiểm tra CMND trùng!!\n" + ex.Message, "", MessageBoxButtons.OK);
                     return;
                 }
-                Program.myReader.Close();
             }
             try
             {
@@ -196,20 +226,29 @@ namespace NGANHANG_PHANTAN_NHOM29
         }
         private bool kiemTraTaiKhoan()
         {
-            Program.myReader.Close();
-            string cmd = "EXEC frmKhachHang_ExistsAccount '" + KH_textboxCMND.Text + "'";
-            Program.myReader = Program.ExecSqlDataReader(cmd);
-            Program.myReader.Read();
-            if(Program.myReader.HasRows)
+            try
             {
                 Program.myReader.Close();
-                return true;
+                string cmd = "EXEC frmKhachHang_ExistsAccount'" + KH_textboxCMND.Text + "'";
+                Program.myReader = Program.ExecSqlDataReader(cmd);
+
+                if (Program.myReader.HasRows)
+                {
+                    Program.myReader.Close();
+                    return true;
+                }
+                else
+                {
+                    Program.myReader.Close();
+                    return false;
+                }
             }
-            else
+            catch( Exception ex)
             {
-                Program.myReader.Close();
+                MessageBox.Show("Lỗi xóa tài khoản", "Thông báo", MessageBoxButtons.OK);
                 return false;
             }
+
         }
         private void KH_barXoa_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {

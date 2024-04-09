@@ -36,36 +36,52 @@ namespace NGANHANG_PHANTAN_NHOM29
 
         private void frmNhanVien_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dS.frmCreateLogin_GetEmployeeNotHaveLogin' table. You can move, or remove it, as needed.
-            // TODO: This line of code loads data into the 'dS.GD_CHUYENTIEN' table. You can move, or remove it, as needed.
-            this.gD_CHUYENTIENTableAdapter.Fill(this.dS.GD_CHUYENTIEN);
-            // TODO: This line of code loads data into the 'dS.GD_GOIRUT' table. You can move, or remove it, as needed.
-            this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
-            dS.EnforceConstraints = false;
-            this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
-            this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
-
-            this.gD_CHUYENTIENTableAdapter.Connection.ConnectionString = Program.connstr;
-            this.gD_CHUYENTIENTableAdapter.Fill(this.dS.GD_CHUYENTIEN);
-
-            this.gD_GOIRUTTableAdapter.Connection.ConnectionString = Program.connstr;
-            this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
-
-            macn = Program.mTenChiNhanh;
-            NV_ChiNhanhHienTai.DataSource = Program.bds_dspm;
-            NV_ChiNhanhHienTai.DisplayMember = "TENCN";
-            NV_ChiNhanhHienTai.ValueMember = "TENSERVER";
-            NV_ChiNhanhHienTai.SelectedIndex = Program.mChiNhanh;
-            NV_panelInput.Enabled = NV_PHUCHOI.Enabled = NV_LUU.Enabled = NV_panelInput.Enabled = NV_comboboxChiNhanhChuyen.Enabled = NV_textboxMaNVMoi.Enabled = false;
-            if( Program.mGroup == "NGANHANG")
+            try
             {
-                NV_ChiNhanhHienTai.Enabled = true;
-                NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_ChuyenNV.Enabled = false;
+                dS.EnforceConstraints = false;
+                this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
+                this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
+
+                this.gD_CHUYENTIENTableAdapter.Connection.ConnectionString = Program.connstr;
+                this.gD_CHUYENTIENTableAdapter.Fill(this.dS.GD_CHUYENTIEN);
+
+                this.gD_GOIRUTTableAdapter.Connection.ConnectionString = Program.connstr;
+                this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
+
+                macn = Program.mTenChiNhanh;
+                NV_ChiNhanhHienTai.DataSource = Program.bds_dspm;
+                NV_ChiNhanhHienTai.DisplayMember = "TENCN";
+                NV_ChiNhanhHienTai.ValueMember = "TENSERVER";
+                NV_ChiNhanhHienTai.SelectedIndex = Program.mChiNhanh;
+                NV_panelInput.Enabled = NV_PHUCHOI.Enabled = NV_LUU.Enabled = NV_panelInput.Enabled = NV_comboboxChiNhanhChuyen.Enabled = NV_textboxMaNVMoi.Enabled = false;
+                if (Program.mGroup == "NGANHANG")
+                {
+                    NV_ChiNhanhHienTai.Enabled = true;
+                    NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_ChuyenNV.Enabled = false;
+                }
+                else
+                {
+                    NV_ChiNhanhHienTai.Enabled = false;
+                    NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_ChuyenNV.Enabled = true;
+                }
+                BindingSource chiNhanhMoi = new BindingSource();
+                foreach (DataRowView d in Program.bds_dspm)
+                {
+                    if (d[0].ToString() != Program.mTenChiNhanh)
+                    {
+                        chiNhanhMoi.Add(d);
+                    }
+                }
+                NV_comboboxChiNhanhChuyen.DataSource = chiNhanhMoi;
+                NV_comboboxChiNhanhChuyen.DisplayMember = "TENCN";
+                NV_comboboxChiNhanhChuyen.ValueMember = "TENSERVER";
+                NV_comboboxChiNhanhChuyen.SelectedIndex = 0;
+                NV_buttonXacNhanChuyen.Enabled = false;
             }
-            else
+            catch(Exception ex)
             {
-                NV_ChiNhanhHienTai.Enabled = false;
-                NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_ChuyenNV.Enabled = true;
+                MessageBox.Show("Lỗi load trang nhân viên", "Thông Báo", MessageBoxButtons.OK);
+                return;
             }
         }
 
@@ -132,7 +148,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             Regex regex = new Regex(@"^NV\d+$");
             return regex.IsMatch(chuoi);
         }
-        public void kiemTraSDT( )
+        private void kiemTraSDT( )
         {
             if (!NV_SDT.Text.All(Char.IsDigit))
             {
@@ -175,6 +191,31 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             return true;
         }
+        private bool KiemTraCMNDTrungNV()
+        {
+            try
+            {
+                Program.myReader.Close();
+                String cmd = "exec KiemTraCMNDTrungNhanVien '" + NV_CMND.Text + "'";
+                Program.myReader = Program.ExecSqlDataReader(cmd);
+                if(Program.myReader.HasRows)
+                {
+                    MessageBox.Show("CMND không thể trùng!!!", "Thông Báo", MessageBoxButtons.OK);
+                    Program.myReader.Close();
+                    return true;
+                }
+                else
+                {
+                    Program.myReader.Close();
+                    return false;
+                }
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show("Không thể kiểm tra trùng CMND!!!", "Thông Báo", MessageBoxButtons.OK);
+                return true;
+            }
+        }
         private void NV_LUU_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             String manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
@@ -211,17 +252,28 @@ namespace NGANHANG_PHANTAN_NHOM29
             if (!kiemTraSdt()) return;
             if( buttonAdd_Clicked == true || manv != NV_MANV.Text)
             {
-                Program.myReader.Close();
-                string cmd = "exec [dbo].[frmNhanVien_duplicateMANV] '" + NV_MANV + "'";
-                Program.myReader = Program.ExecSqlDataReader(cmd);
-                Program.myReader.Read();
-                
-                if( Program.myReader.HasRows)
+                buttonAdd_Clicked = false;
+                try
                 {
-                    MessageBox.Show("Rất tiếc!!\nMã nhân viên đã bị trùng.", "", MessageBoxButtons.OK);
+                    if (KiemTraCMNDTrungNV()) return;
+                    Program.myReader.Close();
+                    string cmd = "exec [dbo].[frmNhanVien_duplicateMANV] '" + NV_MANV + "'";
+                    Program.myReader = Program.ExecSqlDataReader(cmd);
+                    if (Program.myReader.HasRows)
+                    {
+                        MessageBox.Show("Rất tiếc!!\nMã nhân viên đã bị trùng.", "", MessageBoxButtons.OK);
+                        Program.myReader.Close();
+                        return;
+                    }
+                    else
+                    {
+                        Program.myReader.Close();
+                    }
+                }catch( Exception ex)
+                {
+                    MessageBox.Show("Không thể kiểm tra MANV trùng!!!", "Thông Báo", MessageBoxButtons.OK);
                     return;
                 }
-                Program.myReader.Close();
             }
             try
             {
@@ -250,6 +302,9 @@ namespace NGANHANG_PHANTAN_NHOM29
             NV_panelInput.Enabled = false;
             NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_TAILAI.Enabled = NV_ChuyenNV.Enabled = NV_THOAT.Enabled = true;
             NV_LUU.Enabled = NV_PHUCHOI.Enabled = false;
+            NV_buttonXacNhanChuyen.Enabled = false;
+            NV_comboboxChiNhanhChuyen.Enabled = false;
+            NV_textboxMaNVMoi.Text = "";
         }
 
         private void NV_HIEUCHINH_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -373,10 +428,13 @@ namespace NGANHANG_PHANTAN_NHOM29
         private void NV_ChuyenNV_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             vitri = nhanVienBindingSource.Position;
-            int manv = int.Parse(((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString());
-            Console.WriteLine("===============================");
-            Console.WriteLine(manv);
-            Console.WriteLine("===============================");
+            string manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
+            NV_comboboxChiNhanhChuyen.Enabled = true;
+            NV_textboxMaNVMoi.Text = taoMaNV();
+            NV_THEM.Enabled = NV_HIEUCHINH.Enabled = NV_LUU.Enabled = NV_XOA.Enabled = NV_TAILAI.Enabled = NV_ChuyenNV.Enabled = NV_THOAT.Enabled = false;
+            NV_PHUCHOI.Enabled = NV_buttonXacNhanChuyen.Enabled = true;
+            nhanVienGridControl.Enabled = false;
+            NV_buttonXacNhanChuyen.Enabled = true;
         }
     }
 }

@@ -55,7 +55,7 @@
             this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.button1 = new System.Windows.Forms.Button();
+            this.NV_buttonXacNhanChuyen = new System.Windows.Forms.Button();
             this.NV_textboxMaNVMoi = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.NV_comboboxChiNhanhChuyen = new System.Windows.Forms.ComboBox();
@@ -370,7 +370,7 @@
             // 
             // panelControl1
             // 
-            this.panelControl1.Controls.Add(this.button1);
+            this.panelControl1.Controls.Add(this.NV_buttonXacNhanChuyen);
             this.panelControl1.Controls.Add(this.NV_textboxMaNVMoi);
             this.panelControl1.Controls.Add(this.label2);
             this.panelControl1.Controls.Add(this.NV_comboboxChiNhanhChuyen);
@@ -383,15 +383,15 @@
             this.panelControl1.Size = new System.Drawing.Size(1467, 61);
             this.panelControl1.TabIndex = 4;
             // 
-            // button1
+            // NV_buttonXacNhanChuyen
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(1231, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(117, 37);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Xác Nhận";
-            this.button1.UseVisualStyleBackColor = true;
+            this.NV_buttonXacNhanChuyen.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NV_buttonXacNhanChuyen.Location = new System.Drawing.Point(1231, 12);
+            this.NV_buttonXacNhanChuyen.Name = "NV_buttonXacNhanChuyen";
+            this.NV_buttonXacNhanChuyen.Size = new System.Drawing.Size(117, 37);
+            this.NV_buttonXacNhanChuyen.TabIndex = 6;
+            this.NV_buttonXacNhanChuyen.Text = "Xác Nhận";
+            this.NV_buttonXacNhanChuyen.UseVisualStyleBackColor = true;
             // 
             // NV_textboxMaNVMoi
             // 
@@ -413,6 +413,7 @@
             // 
             // NV_comboboxChiNhanhChuyen
             // 
+            this.NV_comboboxChiNhanhChuyen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NV_comboboxChiNhanhChuyen.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NV_comboboxChiNhanhChuyen.FormattingEnabled = true;
             this.NV_comboboxChiNhanhChuyen.Location = new System.Drawing.Point(581, 16);
@@ -433,6 +434,7 @@
             // 
             // NV_ChiNhanhHienTai
             // 
+            this.NV_ChiNhanhHienTai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NV_ChiNhanhHienTai.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NV_ChiNhanhHienTai.FormattingEnabled = true;
             this.NV_ChiNhanhHienTai.Location = new System.Drawing.Point(104, 16);
@@ -784,7 +786,7 @@
         private System.Windows.Forms.Label NV_labelChiNhanhBanDau;
         private System.Windows.Forms.BindingSource nhanVienBindingSource;
         private DS dS;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button NV_buttonXacNhanChuyen;
         private System.Windows.Forms.TextBox NV_textboxMaNVMoi;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox NV_comboboxChiNhanhChuyen;
