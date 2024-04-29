@@ -32,11 +32,11 @@
             System.Windows.Forms.Label CMND;
             System.Windows.Forms.Label hOLabel;
             System.Windows.Forms.Label dIACHILabel;
-            System.Windows.Forms.Label pHAILabel;
             System.Windows.Forms.Label nGAYCAPLabel;
             System.Windows.Forms.Label sODTLabel;
             System.Windows.Forms.Label mACNLabel;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmKhachHang));
+            System.Windows.Forms.Label pHAILabel;
             this.barManager1 = new DevExpress.XtraBars.BarManager(this.components);
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.bar2 = new DevExpress.XtraBars.Bar();
@@ -59,19 +59,10 @@
             this.khachHangBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dS = new NGANHANG_PHANTAN_NHOM29.DS();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colCMND = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colHO = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colTEN = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colDIACHI = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPHAI = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colNGAYCAP = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colSODT = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMACN = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemButtonEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.gridSplitContainer1 = new DevExpress.XtraGrid.GridSplitContainer();
             this.khachHangTableAdapter = new NGANHANG_PHANTAN_NHOM29.DSTableAdapters.KhachHangTableAdapter();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
-            this.KH_comboboxPhai = new System.Windows.Forms.ComboBox();
             this.KH_textboxChiNhanh = new DevExpress.XtraEditors.TextEdit();
             this.KH_textboxSoDienThoai = new DevExpress.XtraEditors.TextEdit();
             this.KH_dateNgayCap = new DevExpress.XtraEditors.DateEdit();
@@ -81,13 +72,22 @@
             this.KH_textboxCMND = new DevExpress.XtraEditors.TextEdit();
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.tableAdapterManager = new NGANHANG_PHANTAN_NHOM29.DSTableAdapters.TableAdapterManager();
+            this.colCMND = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colHO = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colTEN = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colDIACHI = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colPHAI = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colNGAYCAP = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colSODT = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colMACN = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.pHAIComboBox = new System.Windows.Forms.ComboBox();
             CMND = new System.Windows.Forms.Label();
             hOLabel = new System.Windows.Forms.Label();
             dIACHILabel = new System.Windows.Forms.Label();
-            pHAILabel = new System.Windows.Forms.Label();
             nGAYCAPLabel = new System.Windows.Forms.Label();
             sODTLabel = new System.Windows.Forms.Label();
             mACNLabel = new System.Windows.Forms.Label();
+            pHAILabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -136,21 +136,11 @@
             // 
             dIACHILabel.AutoSize = true;
             dIACHILabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dIACHILabel.Location = new System.Drawing.Point(56, 165);
+            dIACHILabel.Location = new System.Drawing.Point(56, 242);
             dIACHILabel.Name = "dIACHILabel";
             dIACHILabel.Size = new System.Drawing.Size(85, 28);
             dIACHILabel.TabIndex = 6;
             dIACHILabel.Text = "DIACHI:";
-            // 
-            // pHAILabel
-            // 
-            pHAILabel.AutoSize = true;
-            pHAILabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            pHAILabel.Location = new System.Drawing.Point(77, 242);
-            pHAILabel.Name = "pHAILabel";
-            pHAILabel.Size = new System.Drawing.Size(64, 28);
-            pHAILabel.TabIndex = 8;
-            pHAILabel.Text = "PHAI:";
             // 
             // nGAYCAPLabel
             // 
@@ -409,6 +399,151 @@
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
+            // repositoryItemButtonEdit1
+            // 
+            this.repositoryItemButtonEdit1.AutoHeight = false;
+            this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
+            // 
+            // gridSplitContainer1
+            // 
+            this.gridSplitContainer1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gridSplitContainer1.Grid = this.gridControl1;
+            this.gridSplitContainer1.Location = new System.Drawing.Point(0, 116);
+            this.gridSplitContainer1.Name = "gridSplitContainer1";
+            this.gridSplitContainer1.Panel1.Controls.Add(this.gridControl1);
+            this.gridSplitContainer1.Size = new System.Drawing.Size(1115, 200);
+            this.gridSplitContainer1.TabIndex = 5;
+            // 
+            // khachHangTableAdapter
+            // 
+            this.khachHangTableAdapter.ClearBeforeFill = true;
+            // 
+            // panelControl3
+            // 
+            this.panelControl3.Controls.Add(pHAILabel);
+            this.panelControl3.Controls.Add(this.pHAIComboBox);
+            this.panelControl3.Controls.Add(mACNLabel);
+            this.panelControl3.Controls.Add(this.KH_textboxChiNhanh);
+            this.panelControl3.Controls.Add(sODTLabel);
+            this.panelControl3.Controls.Add(this.KH_textboxSoDienThoai);
+            this.panelControl3.Controls.Add(nGAYCAPLabel);
+            this.panelControl3.Controls.Add(this.KH_dateNgayCap);
+            this.panelControl3.Controls.Add(dIACHILabel);
+            this.panelControl3.Controls.Add(this.KH_textboxDiaChi);
+            this.panelControl3.Controls.Add(this.KH_textboxTen);
+            this.panelControl3.Controls.Add(hOLabel);
+            this.panelControl3.Controls.Add(this.KH_textboxHo);
+            this.panelControl3.Controls.Add(CMND);
+            this.panelControl3.Controls.Add(this.KH_textboxCMND);
+            this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelControl3.Location = new System.Drawing.Point(2, 2);
+            this.panelControl3.Name = "panelControl3";
+            this.panelControl3.Size = new System.Drawing.Size(1111, 338);
+            this.panelControl3.TabIndex = 0;
+            // 
+            // KH_textboxChiNhanh
+            // 
+            this.KH_textboxChiNhanh.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "MACN", true));
+            this.KH_textboxChiNhanh.Location = new System.Drawing.Point(708, 126);
+            this.KH_textboxChiNhanh.MenuManager = this.barManager1;
+            this.KH_textboxChiNhanh.Name = "KH_textboxChiNhanh";
+            this.KH_textboxChiNhanh.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxChiNhanh.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxChiNhanh.Size = new System.Drawing.Size(365, 34);
+            this.KH_textboxChiNhanh.TabIndex = 15;
+            // 
+            // KH_textboxSoDienThoai
+            // 
+            this.KH_textboxSoDienThoai.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "SODT", true));
+            this.KH_textboxSoDienThoai.Location = new System.Drawing.Point(708, 53);
+            this.KH_textboxSoDienThoai.MenuManager = this.barManager1;
+            this.KH_textboxSoDienThoai.Name = "KH_textboxSoDienThoai";
+            this.KH_textboxSoDienThoai.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxSoDienThoai.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxSoDienThoai.Size = new System.Drawing.Size(365, 34);
+            this.KH_textboxSoDienThoai.TabIndex = 13;
+            // 
+            // KH_dateNgayCap
+            // 
+            this.KH_dateNgayCap.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "NGAYCAP", true));
+            this.KH_dateNgayCap.EditValue = null;
+            this.KH_dateNgayCap.Location = new System.Drawing.Point(708, 217);
+            this.KH_dateNgayCap.MenuManager = this.barManager1;
+            this.KH_dateNgayCap.Name = "KH_dateNgayCap";
+            this.KH_dateNgayCap.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_dateNgayCap.Properties.Appearance.Options.UseFont = true;
+            this.KH_dateNgayCap.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.KH_dateNgayCap.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.KH_dateNgayCap.Size = new System.Drawing.Size(274, 34);
+            this.KH_dateNgayCap.TabIndex = 11;
+            // 
+            // KH_textboxDiaChi
+            // 
+            this.KH_textboxDiaChi.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "DIACHI", true));
+            this.KH_textboxDiaChi.Location = new System.Drawing.Point(163, 236);
+            this.KH_textboxDiaChi.MenuManager = this.barManager1;
+            this.KH_textboxDiaChi.Name = "KH_textboxDiaChi";
+            this.KH_textboxDiaChi.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxDiaChi.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxDiaChi.Size = new System.Drawing.Size(397, 34);
+            this.KH_textboxDiaChi.TabIndex = 7;
+            // 
+            // KH_textboxTen
+            // 
+            this.KH_textboxTen.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "TEN", true));
+            this.KH_textboxTen.Location = new System.Drawing.Point(423, 101);
+            this.KH_textboxTen.MenuManager = this.barManager1;
+            this.KH_textboxTen.Name = "KH_textboxTen";
+            this.KH_textboxTen.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxTen.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxTen.Size = new System.Drawing.Size(137, 34);
+            this.KH_textboxTen.TabIndex = 5;
+            // 
+            // KH_textboxHo
+            // 
+            this.KH_textboxHo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "HO", true));
+            this.KH_textboxHo.Location = new System.Drawing.Point(163, 101);
+            this.KH_textboxHo.MenuManager = this.barManager1;
+            this.KH_textboxHo.Name = "KH_textboxHo";
+            this.KH_textboxHo.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxHo.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxHo.Size = new System.Drawing.Size(254, 34);
+            this.KH_textboxHo.TabIndex = 3;
+            // 
+            // KH_textboxCMND
+            // 
+            this.KH_textboxCMND.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "CMND", true));
+            this.KH_textboxCMND.Location = new System.Drawing.Point(163, 16);
+            this.KH_textboxCMND.MenuManager = this.barManager1;
+            this.KH_textboxCMND.Name = "KH_textboxCMND";
+            this.KH_textboxCMND.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.KH_textboxCMND.Properties.Appearance.Options.UseFont = true;
+            this.KH_textboxCMND.Size = new System.Drawing.Size(397, 34);
+            this.KH_textboxCMND.TabIndex = 1;
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.Controls.Add(this.panelControl3);
+            this.panelControl2.Location = new System.Drawing.Point(0, 322);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(1115, 342);
+            this.panelControl2.TabIndex = 10;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.ChiNhanhTableAdapter = null;
+            this.tableAdapterManager.GD_CHUYENTIENTableAdapter = null;
+            this.tableAdapterManager.GD_GOIRUTTableAdapter = null;
+            this.tableAdapterManager.KhachHangTableAdapter = this.khachHangTableAdapter;
+            this.tableAdapterManager.NhanVienTableAdapter = null;
+            this.tableAdapterManager.TaiKhoanTableAdapter = null;
+            this.tableAdapterManager.UpdateOrder = NGANHANG_PHANTAN_NHOM29.DSTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
             // colCMND
             // 
             this.colCMND.FieldName = "CMND";
@@ -481,163 +616,29 @@
             this.colMACN.Visible = true;
             this.colMACN.VisibleIndex = 7;
             // 
-            // repositoryItemButtonEdit1
+            // pHAILabel
             // 
-            this.repositoryItemButtonEdit1.AutoHeight = false;
-            this.repositoryItemButtonEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.repositoryItemButtonEdit1.Name = "repositoryItemButtonEdit1";
+            pHAILabel.AutoSize = true;
+            pHAILabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            pHAILabel.Location = new System.Drawing.Point(77, 176);
+            pHAILabel.Name = "pHAILabel";
+            pHAILabel.Size = new System.Drawing.Size(64, 28);
+            pHAILabel.TabIndex = 15;
+            pHAILabel.Text = "PHAI:";
             // 
-            // gridSplitContainer1
+            // pHAIComboBox
             // 
-            this.gridSplitContainer1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gridSplitContainer1.Grid = this.gridControl1;
-            this.gridSplitContainer1.Location = new System.Drawing.Point(0, 116);
-            this.gridSplitContainer1.Name = "gridSplitContainer1";
-            this.gridSplitContainer1.Panel1.Controls.Add(this.gridControl1);
-            this.gridSplitContainer1.Size = new System.Drawing.Size(1115, 200);
-            this.gridSplitContainer1.TabIndex = 5;
-            // 
-            // khachHangTableAdapter
-            // 
-            this.khachHangTableAdapter.ClearBeforeFill = true;
-            // 
-            // panelControl3
-            // 
-            this.panelControl3.Controls.Add(this.KH_comboboxPhai);
-            this.panelControl3.Controls.Add(mACNLabel);
-            this.panelControl3.Controls.Add(this.KH_textboxChiNhanh);
-            this.panelControl3.Controls.Add(sODTLabel);
-            this.panelControl3.Controls.Add(this.KH_textboxSoDienThoai);
-            this.panelControl3.Controls.Add(nGAYCAPLabel);
-            this.panelControl3.Controls.Add(this.KH_dateNgayCap);
-            this.panelControl3.Controls.Add(pHAILabel);
-            this.panelControl3.Controls.Add(dIACHILabel);
-            this.panelControl3.Controls.Add(this.KH_textboxDiaChi);
-            this.panelControl3.Controls.Add(this.KH_textboxTen);
-            this.panelControl3.Controls.Add(hOLabel);
-            this.panelControl3.Controls.Add(this.KH_textboxHo);
-            this.panelControl3.Controls.Add(CMND);
-            this.panelControl3.Controls.Add(this.KH_textboxCMND);
-            this.panelControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl3.Location = new System.Drawing.Point(2, 2);
-            this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(1111, 338);
-            this.panelControl3.TabIndex = 0;
-            // 
-            // KH_comboboxPhai
-            // 
-            this.KH_comboboxPhai.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.khachHangBindingSource, "PHAI", true));
-            this.KH_comboboxPhai.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_comboboxPhai.FormattingEnabled = true;
-            this.KH_comboboxPhai.Items.AddRange(new object[] {
+            this.pHAIComboBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.khachHangBindingSource, "PHAI", true));
+            this.pHAIComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.pHAIComboBox.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.pHAIComboBox.FormattingEnabled = true;
+            this.pHAIComboBox.Items.AddRange(new object[] {
             "Nam",
             "Nữ"});
-            this.KH_comboboxPhai.Location = new System.Drawing.Point(163, 239);
-            this.KH_comboboxPhai.Name = "KH_comboboxPhai";
-            this.KH_comboboxPhai.Size = new System.Drawing.Size(294, 36);
-            this.KH_comboboxPhai.TabIndex = 16;
-            // 
-            // KH_textboxChiNhanh
-            // 
-            this.KH_textboxChiNhanh.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "MACN", true));
-            this.KH_textboxChiNhanh.Location = new System.Drawing.Point(708, 126);
-            this.KH_textboxChiNhanh.MenuManager = this.barManager1;
-            this.KH_textboxChiNhanh.Name = "KH_textboxChiNhanh";
-            this.KH_textboxChiNhanh.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxChiNhanh.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxChiNhanh.Size = new System.Drawing.Size(365, 34);
-            this.KH_textboxChiNhanh.TabIndex = 15;
-            // 
-            // KH_textboxSoDienThoai
-            // 
-            this.KH_textboxSoDienThoai.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "SODT", true));
-            this.KH_textboxSoDienThoai.Location = new System.Drawing.Point(708, 53);
-            this.KH_textboxSoDienThoai.MenuManager = this.barManager1;
-            this.KH_textboxSoDienThoai.Name = "KH_textboxSoDienThoai";
-            this.KH_textboxSoDienThoai.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxSoDienThoai.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxSoDienThoai.Size = new System.Drawing.Size(365, 34);
-            this.KH_textboxSoDienThoai.TabIndex = 13;
-            // 
-            // KH_dateNgayCap
-            // 
-            this.KH_dateNgayCap.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "NGAYCAP", true));
-            this.KH_dateNgayCap.EditValue = null;
-            this.KH_dateNgayCap.Location = new System.Drawing.Point(708, 217);
-            this.KH_dateNgayCap.MenuManager = this.barManager1;
-            this.KH_dateNgayCap.Name = "KH_dateNgayCap";
-            this.KH_dateNgayCap.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_dateNgayCap.Properties.Appearance.Options.UseFont = true;
-            this.KH_dateNgayCap.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.KH_dateNgayCap.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.KH_dateNgayCap.Size = new System.Drawing.Size(274, 34);
-            this.KH_dateNgayCap.TabIndex = 11;
-            // 
-            // KH_textboxDiaChi
-            // 
-            this.KH_textboxDiaChi.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "DIACHI", true));
-            this.KH_textboxDiaChi.Location = new System.Drawing.Point(163, 162);
-            this.KH_textboxDiaChi.MenuManager = this.barManager1;
-            this.KH_textboxDiaChi.Name = "KH_textboxDiaChi";
-            this.KH_textboxDiaChi.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxDiaChi.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxDiaChi.Size = new System.Drawing.Size(397, 34);
-            this.KH_textboxDiaChi.TabIndex = 7;
-            // 
-            // KH_textboxTen
-            // 
-            this.KH_textboxTen.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "TEN", true));
-            this.KH_textboxTen.Location = new System.Drawing.Point(423, 101);
-            this.KH_textboxTen.MenuManager = this.barManager1;
-            this.KH_textboxTen.Name = "KH_textboxTen";
-            this.KH_textboxTen.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxTen.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxTen.Size = new System.Drawing.Size(137, 34);
-            this.KH_textboxTen.TabIndex = 5;
-            // 
-            // KH_textboxHo
-            // 
-            this.KH_textboxHo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "HO", true));
-            this.KH_textboxHo.Location = new System.Drawing.Point(163, 101);
-            this.KH_textboxHo.MenuManager = this.barManager1;
-            this.KH_textboxHo.Name = "KH_textboxHo";
-            this.KH_textboxHo.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxHo.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxHo.Size = new System.Drawing.Size(254, 34);
-            this.KH_textboxHo.TabIndex = 3;
-            // 
-            // KH_textboxCMND
-            // 
-            this.KH_textboxCMND.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.khachHangBindingSource, "CMND", true));
-            this.KH_textboxCMND.Location = new System.Drawing.Point(163, 16);
-            this.KH_textboxCMND.MenuManager = this.barManager1;
-            this.KH_textboxCMND.Name = "KH_textboxCMND";
-            this.KH_textboxCMND.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.KH_textboxCMND.Properties.Appearance.Options.UseFont = true;
-            this.KH_textboxCMND.Size = new System.Drawing.Size(397, 34);
-            this.KH_textboxCMND.TabIndex = 1;
-            // 
-            // panelControl2
-            // 
-            this.panelControl2.Controls.Add(this.panelControl3);
-            this.panelControl2.Location = new System.Drawing.Point(0, 322);
-            this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(1115, 342);
-            this.panelControl2.TabIndex = 10;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.ChiNhanhTableAdapter = null;
-            this.tableAdapterManager.GD_CHUYENTIENTableAdapter = null;
-            this.tableAdapterManager.GD_GOIRUTTableAdapter = null;
-            this.tableAdapterManager.KhachHangTableAdapter = this.khachHangTableAdapter;
-            this.tableAdapterManager.NhanVienTableAdapter = null;
-            this.tableAdapterManager.TaiKhoanTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = NGANHANG_PHANTAN_NHOM29.DSTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.pHAIComboBox.Location = new System.Drawing.Point(163, 168);
+            this.pHAIComboBox.Name = "pHAIComboBox";
+            this.pHAIComboBox.Size = new System.Drawing.Size(397, 36);
+            this.pHAIComboBox.TabIndex = 16;
             // 
             // frmKhachHang
             // 
@@ -720,7 +721,6 @@
         private DevExpress.XtraEditors.TextEdit KH_textboxHo;
         private DevExpress.XtraEditors.TextEdit KH_textboxCMND;
         private DSTableAdapters.TableAdapterManager tableAdapterManager;
-        private System.Windows.Forms.ComboBox KH_comboboxPhai;
         private DevExpress.XtraGrid.Columns.GridColumn colCMND;
         private DevExpress.XtraGrid.Columns.GridColumn colHO;
         private DevExpress.XtraGrid.Columns.GridColumn colTEN;
@@ -729,5 +729,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colNGAYCAP;
         private DevExpress.XtraGrid.Columns.GridColumn colSODT;
         private DevExpress.XtraGrid.Columns.GridColumn colMACN;
+        private System.Windows.Forms.ComboBox pHAIComboBox;
     }
 }

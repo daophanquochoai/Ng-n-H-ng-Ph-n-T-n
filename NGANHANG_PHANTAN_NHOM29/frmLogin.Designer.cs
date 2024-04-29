@@ -71,7 +71,7 @@
             this.LG_textboxTaiKhoan.Name = "LG_textboxTaiKhoan";
             this.LG_textboxTaiKhoan.Size = new System.Drawing.Size(317, 30);
             this.LG_textboxTaiKhoan.TabIndex = 4;
-            this.LG_textboxTaiKhoan.Text = "TMN";
+            this.LG_textboxTaiKhoan.Text = "DPQH";
             // 
             // LG_comboxChiNhanh
             // 

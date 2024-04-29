@@ -240,7 +240,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Lỗi làm mới trang!!!", "Thông Báo", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi làm mới trang!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -266,7 +266,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Lỗi phục hồi!!!", "Thông Báo", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi phục hồi!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return;
             }
         }

@@ -86,6 +86,7 @@
             this.colMANV = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colHO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTEN = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCMND = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDIACHI = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPHAI = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSODT = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -195,7 +196,7 @@
             // 
             trangThaiXoaLabel.AutoSize = true;
             trangThaiXoaLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            trangThaiXoaLabel.Location = new System.Drawing.Point(5, 289);
+            trangThaiXoaLabel.Location = new System.Drawing.Point(5, 265);
             trangThaiXoaLabel.Name = "trangThaiXoaLabel";
             trangThaiXoaLabel.Size = new System.Drawing.Size(165, 28);
             trangThaiXoaLabel.TabIndex = 16;
@@ -392,6 +393,7 @@
             this.NV_buttonXacNhanChuyen.TabIndex = 6;
             this.NV_buttonXacNhanChuyen.Text = "Xác Nhận";
             this.NV_buttonXacNhanChuyen.UseVisualStyleBackColor = true;
+            this.NV_buttonXacNhanChuyen.Click += new System.EventHandler(this.NV_buttonXacNhanChuyen_Click);
             // 
             // NV_textboxMaNVMoi
             // 
@@ -420,6 +422,7 @@
             this.NV_comboboxChiNhanhChuyen.Name = "NV_comboboxChiNhanhChuyen";
             this.NV_comboboxChiNhanhChuyen.Size = new System.Drawing.Size(242, 31);
             this.NV_comboboxChiNhanhChuyen.TabIndex = 3;
+            this.NV_comboboxChiNhanhChuyen.SelectedIndexChanged += new System.EventHandler(this.NV_comboboxChiNhanhChuyen_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -514,7 +517,7 @@
             // 
             this.trangThaiXoaCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.nhanVienBindingSource, "TrangThaiXoa", true));
             this.trangThaiXoaCheckBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.trangThaiXoaCheckBox.Location = new System.Drawing.Point(211, 281);
+            this.trangThaiXoaCheckBox.Location = new System.Drawing.Point(187, 257);
             this.trangThaiXoaCheckBox.Name = "trangThaiXoaCheckBox";
             this.trangThaiXoaCheckBox.Size = new System.Drawing.Size(104, 47);
             this.trangThaiXoaCheckBox.TabIndex = 17;
@@ -546,6 +549,7 @@
             // NV_PHAI
             // 
             this.NV_PHAI.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.nhanVienBindingSource, "PHAI", true));
+            this.NV_PHAI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.NV_PHAI.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NV_PHAI.FormattingEnabled = true;
             this.NV_PHAI.Items.AddRange(new object[] {
@@ -652,6 +656,7 @@
             this.colMANV,
             this.colHO,
             this.colTEN,
+            this.colCMND,
             this.colDIACHI,
             this.colPHAI,
             this.colSODT,
@@ -687,40 +692,47 @@
             this.colTEN.Visible = true;
             this.colTEN.VisibleIndex = 2;
             // 
+            // colCMND
+            // 
+            this.colCMND.FieldName = "CMND";
+            this.colCMND.Name = "colCMND";
+            this.colCMND.Visible = true;
+            this.colCMND.VisibleIndex = 3;
+            // 
             // colDIACHI
             // 
             this.colDIACHI.FieldName = "DIACHI";
             this.colDIACHI.Name = "colDIACHI";
             this.colDIACHI.Visible = true;
-            this.colDIACHI.VisibleIndex = 3;
+            this.colDIACHI.VisibleIndex = 4;
             // 
             // colPHAI
             // 
             this.colPHAI.FieldName = "PHAI";
             this.colPHAI.Name = "colPHAI";
             this.colPHAI.Visible = true;
-            this.colPHAI.VisibleIndex = 4;
+            this.colPHAI.VisibleIndex = 5;
             // 
             // colSODT
             // 
             this.colSODT.FieldName = "SODT";
             this.colSODT.Name = "colSODT";
             this.colSODT.Visible = true;
-            this.colSODT.VisibleIndex = 5;
+            this.colSODT.VisibleIndex = 6;
             // 
             // colMACN
             // 
             this.colMACN.FieldName = "MACN";
             this.colMACN.Name = "colMACN";
             this.colMACN.Visible = true;
-            this.colMACN.VisibleIndex = 6;
+            this.colMACN.VisibleIndex = 7;
             // 
             // colTrangThaiXoa
             // 
             this.colTrangThaiXoa.FieldName = "TrangThaiXoa";
             this.colTrangThaiXoa.Name = "colTrangThaiXoa";
             this.colTrangThaiXoa.Visible = true;
-            this.colTrangThaiXoa.VisibleIndex = 7;
+            this.colTrangThaiXoa.VisibleIndex = 8;
             // 
             // frmNhanVien
             // 
@@ -813,6 +825,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colMANV;
         private DevExpress.XtraGrid.Columns.GridColumn colHO;
         private DevExpress.XtraGrid.Columns.GridColumn colTEN;
+        private DevExpress.XtraGrid.Columns.GridColumn colCMND;
         private DevExpress.XtraGrid.Columns.GridColumn colDIACHI;
         private DevExpress.XtraGrid.Columns.GridColumn colPHAI;
         private DevExpress.XtraGrid.Columns.GridColumn colSODT;

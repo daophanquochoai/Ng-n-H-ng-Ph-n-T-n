@@ -191,6 +191,7 @@
             this.BC_buttonTKTTKH.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("BC_buttonTKTTKH.ImageOptions.LargeImage")));
             this.BC_buttonTKTTKH.LargeWidth = 140;
             this.BC_buttonTKTTKH.Name = "BC_buttonTKTTKH";
+            this.BC_buttonTKTTKH.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.BC_buttonTKTTKH_ItemClick);
             // 
             // HT
             // 

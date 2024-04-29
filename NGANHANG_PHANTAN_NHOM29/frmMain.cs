@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using DevExpress.XtraReports.UI;
 
 namespace NGANHANG_PHANTAN_NHOM29
 {
@@ -96,7 +97,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Không thể đăng xuất!!!", "", MessageBoxButtons.OK);
+                MessageBox.Show("Không thể đăng xuất!!!\n" + ex.Message, "", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -144,6 +145,18 @@ namespace NGANHANG_PHANTAN_NHOM29
             else
             {
                 frmTaoTaiKhoan frm = new frmTaoTaiKhoan();
+                frm.MdiParent = this;
+                frm.Show();
+            }
+        }
+
+        private void BC_buttonTKTTKH_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Form f = this.CheckExists(typeof(frm_BaoCaoKhachHang));
+            if (f != null) f.Activate();
+            else
+            {
+                frm_BaoCaoKhachHang frm = new frm_BaoCaoKhachHang();
                 frm.MdiParent = this;
                 frm.Show();
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
 
 namespace NGANHANG_PHANTAN_NHOM29
 {
@@ -39,6 +40,11 @@ namespace NGANHANG_PHANTAN_NHOM29
             try
             {
                 dS.EnforceConstraints = false;
+                macn = Program.mTenChiNhanh;
+                NV_ChiNhanhHienTai.DataSource = Program.bds_dspm;
+                NV_ChiNhanhHienTai.DisplayMember = "TENCN";
+                NV_ChiNhanhHienTai.ValueMember = "TENSERVER";
+                NV_ChiNhanhHienTai.SelectedIndex = Program.mChiNhanh;
                 this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
                 this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
 
@@ -48,11 +54,6 @@ namespace NGANHANG_PHANTAN_NHOM29
                 this.gD_GOIRUTTableAdapter.Connection.ConnectionString = Program.connstr;
                 this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
 
-                macn = Program.mTenChiNhanh;
-                NV_ChiNhanhHienTai.DataSource = Program.bds_dspm;
-                NV_ChiNhanhHienTai.DisplayMember = "TENCN";
-                NV_ChiNhanhHienTai.ValueMember = "TENSERVER";
-                NV_ChiNhanhHienTai.SelectedIndex = Program.mChiNhanh;
                 NV_panelInput.Enabled = NV_PHUCHOI.Enabled = NV_LUU.Enabled = NV_panelInput.Enabled = NV_comboboxChiNhanhChuyen.Enabled = NV_textboxMaNVMoi.Enabled = false;
                 if (Program.mGroup == "NGANHANG")
                 {
@@ -80,7 +81,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Lỗi load trang nhân viên", "Thông Báo", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi load trang nhân viên\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -108,15 +109,25 @@ namespace NGANHANG_PHANTAN_NHOM29
             if (Program.myReader == null) return null;
 
             Program.myReader.Read();
-            int stt = Program.myReader.GetInt32(0);
+            String stt = Program.myReader.GetString(0);
             Program.myReader.Close(); // Đóng DataReader sau khi sử dụng
-
-            if (Convert.IsDBNull(Program.username))
+            return stt;
+        }
+        private string taoMaNVKhiChuyen( String manv, String macn)
+        {
+            // Đóng DataReader trước nếu nó đã mở
+            if (Program.myReader != null && !Program.myReader.IsClosed)
             {
-                return null;
+                Program.myReader.Close();
             }
-
-            return "NV" + stt.ToString("D4");
+            // Tạo MANV tự động
+            string cmd = "exec [dbo].[timMANV_ChuyenNhanVien] '" + manv.Trim() + "', '" + macn.Trim() + "'";
+            Program.myReader = Program.ExecSqlDataReader(cmd);
+            if (Program.myReader == null) return null;
+            Program.myReader.Read();
+            String stt = Program.myReader.GetString(0);
+            Program.myReader.Close(); // Đóng DataReader sau khi sử dụng
+            return stt;
         }
 
 
@@ -129,8 +140,11 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             vitri = nhanVienBindingSource.Position;
             NV_HO.Focus();
+            NV_PHAI.SelectedIndex = 0;
+            trangThaiXoaCheckBox.Checked = true;
             NV_panelInput.Enabled = true;
             nhanVienBindingSource.AddNew();
+            trangThaiXoaCheckBox.Checked = false;
             NV_ChiNhanh.Text = macn;
             NV_THEM.Enabled = NV_XOA.Enabled = NV_HIEUCHINH.Enabled = NV_TAILAI.Enabled = NV_ChuyenNV.Enabled = NV_THOAT.Enabled = false;
             NV_LUU.Enabled = NV_PHUCHOI.Enabled = true;
@@ -212,28 +226,23 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Không thể kiểm tra trùng CMND!!!", "Thông Báo", MessageBoxButtons.OK);
+                MessageBox.Show("Không thể kiểm tra trùng CMND!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return true;
             }
         }
         private void NV_LUU_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             String manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
-            if( NV_MANV.Text.Trim() == "")
-            {
-                MessageBox.Show("Mã nhân viên không được trống", "", MessageBoxButtons.OK);
-                NV_MANV.Focus();
-                return;
-            }
-            if( !kiemTraMaNV(NV_MANV.Text))
-            {
-                MessageBox.Show("Mã nhân viên sai cấu trúc : NV + STT", "", MessageBoxButtons.OK);
-                NV_MANV.Focus();
-                return;
-            }
-            if( NV_HO.Text.Trim() == "")
+            String email = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["CMND"].ToString();
+            if ( NV_HO.Text.Trim() == "")
             {
                 MessageBox.Show("Họ nhân viên không được trống", "", MessageBoxButtons.OK);
+                NV_HO.Focus();
+                return;
+            }
+            if(NV_HO.Text.Any(Char.IsNumber))
+            {
+                MessageBox.Show("Họ nhân viên không chứa số", "", MessageBoxButtons.OK);
                 NV_HO.Focus();
                 return;
             }
@@ -243,7 +252,31 @@ namespace NGANHANG_PHANTAN_NHOM29
                 NV_TEN.Focus();
                 return;
             }
-            if( NV_DIACHI.Text.Trim() == "")
+            if (NV_TEN.Text.Any(Char.IsNumber))
+            {
+                MessageBox.Show("Họ nhân viên không chứa số", "", MessageBoxButtons.OK);
+                NV_TEN.Focus();
+                return;
+            }
+            if( NV_CMND.Text.Trim() == "")
+            {
+                MessageBox.Show("CMND nhân viên không để trống", "", MessageBoxButtons.OK);
+                NV_CMND.Focus();
+                return;
+            }
+            if( NV_CMND.Text.Length != 10)
+            {
+                MessageBox.Show("CMND nhân viên phải có 10 chữ số", "", MessageBoxButtons.OK);
+                NV_CMND.Focus();
+                return;
+            }
+            if(!NV_CMND.Text.All(Char.IsNumber))
+            {
+                MessageBox.Show("CMND nhân viên không chứa chữ", "", MessageBoxButtons.OK);
+                NV_CMND.Focus();
+                return;
+            }
+            if ( NV_DIACHI.Text.Trim() == "")
             {
                 MessageBox.Show("Địa chỉ nhân viên không được trống", "", MessageBoxButtons.OK);
                 NV_DIACHI.Focus();
@@ -271,12 +304,19 @@ namespace NGANHANG_PHANTAN_NHOM29
                     }
                 }catch( Exception ex)
                 {
-                    MessageBox.Show("Không thể kiểm tra MANV trùng!!!", "Thông Báo", MessageBoxButtons.OK);
+                    MessageBox.Show("Không thể kiểm tra MANV trùng!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                     return;
                 }
             }
             try
             {
+                if( email != NV_CMND.Text)
+                {
+                    Program.myReader.Close();
+                    string cmd = "EXEC [dbo].[thayDoiToanBoEmail] '" + NV_CMND.Text.Trim() + "','" + email + "'";
+                    Program.ExecSqlNonQuery(cmd);
+                    Program.myReader.Close();
+                }
                 nhanVienBindingSource.EndEdit();
                 nhanVienBindingSource.ResetCurrentItem();
                 this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
@@ -320,36 +360,43 @@ namespace NGANHANG_PHANTAN_NHOM29
 
         private void NV_ChiNhanhHienTai_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (NV_ChiNhanhHienTai.SelectedIndex.ToString() == "System.Data.DataRowView")
+            try
             {
-                return;
-            }
-            //Program.servername = NV_ChiNhanhHienTai.SelectedValue.ToString();
-            if (NV_ChiNhanhHienTai.SelectedIndex != Program.mChiNhanh)
-            {
-                Program.mlogin = Program.remotelogin;
-                Program.password = Program.remotepassword;
-            }
-            else
-            {
-                Program.mlogin = Program.mloginDN;
-                Program.password = Program.passwordDN;
-            }
-            if (Program.KetNoi() == 0)
-            {
-                MessageBox.Show("Lỗi kết nối về cơ sở dữ liệu mới!!", "Thông báo", MessageBoxButtons.OK);
-                return;
-            }
-            else
-            {
-                this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
-                this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
+                if (NV_ChiNhanhHienTai.SelectedValue.ToString() == "System.Data.DataRowView")
+                {
+                    return;
+                }
+                Program.servername = NV_ChiNhanhHienTai.SelectedValue.ToString();
+                if (NV_ChiNhanhHienTai.SelectedIndex != Program.mChiNhanh)
+                {
+                    Program.mlogin = Program.remotelogin;
+                    Program.password = Program.remotepassword;
+                }
+                else
+                {
+                    Program.mlogin = Program.mloginDN;
+                    Program.password = Program.passwordDN;
+                }
+                if (Program.KetNoi() == 0)
+                {
+                    MessageBox.Show("Lỗi kết nối về cơ sở dữ liệu mới!!", "Thông báo", MessageBoxButtons.OK);
+                    return;
+                }
+                else
+                {
+                    this.nhanVienTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
 
-                this.gD_CHUYENTIENTableAdapter.Connection.ConnectionString = Program.connstr;
-                this.gD_CHUYENTIENTableAdapter.Fill(this.dS.GD_CHUYENTIEN);
+                    this.gD_CHUYENTIENTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.gD_CHUYENTIENTableAdapter.Fill(this.dS.GD_CHUYENTIEN);
 
-                this.gD_GOIRUTTableAdapter.Connection.ConnectionString = Program.connstr;
-                this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
+                    this.gD_GOIRUTTableAdapter.Connection.ConnectionString = Program.connstr;
+                    this.gD_GOIRUTTableAdapter.Fill(this.dS.GD_GOIRUT);
+                }
+            }catch( Exception ex)
+            {
+                MessageBox.Show("Lỗi quá trình vào side\nLý do: " + ex.Message, "Thông báo", MessageBoxButtons.OK);
+                return;
             }
         }
         private bool kiemTraCoTaiKhoan()
@@ -408,7 +455,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch ( Exception ex)
             {
-                MessageBox.Show("Lỗi xóa!!", "", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi xóa!!\n" + ex.Message, "", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -420,21 +467,67 @@ namespace NGANHANG_PHANTAN_NHOM29
                 this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
             }catch( Exception ex)
             {
-                MessageBox.Show("Lỗi reload lại dữ liệu!!!", "Thông bóa", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi reload lại dữ liệu!!!\n" + ex.Message, "Thông bóa", MessageBoxButtons.OK);
                 return;
             }
         }
 
         private void NV_ChuyenNV_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
-            vitri = nhanVienBindingSource.Position;
             string manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
+
+            if( taoMaNV() == null)
+            {
+                MessageBox.Show("Lỗi tạo mã nhân viên!!", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }
+            NV_textboxMaNVMoi.Text = taoMaNVKhiChuyen(manv, NV_comboboxChiNhanhChuyen.SelectedValue.ToString());
+            vitri = nhanVienBindingSource.Position;
             NV_comboboxChiNhanhChuyen.Enabled = true;
-            NV_textboxMaNVMoi.Text = taoMaNV();
             NV_THEM.Enabled = NV_HIEUCHINH.Enabled = NV_LUU.Enabled = NV_XOA.Enabled = NV_TAILAI.Enabled = NV_ChuyenNV.Enabled = NV_THOAT.Enabled = false;
             NV_PHUCHOI.Enabled = NV_buttonXacNhanChuyen.Enabled = true;
             nhanVienGridControl.Enabled = false;
             NV_buttonXacNhanChuyen.Enabled = true;
+        }
+
+        private void NV_comboboxChiNhanhChuyen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NV_buttonXacNhanChuyen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
+                if (MessageBox.Show("Bạn muốn chuyển nhân viên " + manv.Trim() + " sang chi nhánh " + NV_comboboxChiNhanhChuyen.Text + "??", "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    NV_comboboxChiNhanhChuyen.Enabled = false;
+                    NV_THEM.Enabled = NV_HIEUCHINH.Enabled = NV_LUU.Enabled = NV_XOA.Enabled = NV_TAILAI.Enabled = NV_ChuyenNV.Enabled = NV_THOAT.Enabled = true;
+                    NV_PHUCHOI.Enabled = NV_buttonXacNhanChuyen.Enabled = false;
+                    nhanVienGridControl.Enabled = true;
+                    NV_buttonXacNhanChuyen.Enabled = false;
+                    Program.myReader.Close();
+                    string cmd = "EXEC SP_CAPNHAT_SONG_SONG '" + manv.Trim() + "','" + NV_textboxMaNVMoi.Text.Trim() + "','" + NV_comboboxChiNhanhChuyen.SelectedValue.ToString() + "'";
+                    Program.ExecSqlNonQuery(cmd);
+                    Program.myReader.Close();
+                    try
+                    {
+                        this.nhanVienTableAdapter.Fill(this.dS.NhanVien);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi reload lại dữ liệu!!!\n" + ex.Message, "Thông bóa", MessageBoxButtons.OK);
+                        return;
+                    }
+                    NV_textboxMaNVMoi.Text = "";
+                }
+            }
+            catch( Exception ex)
+            {
+                MessageBox.Show("Chức năng chuyển lỗi!!", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }
         }
     }
 }

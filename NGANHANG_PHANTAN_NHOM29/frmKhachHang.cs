@@ -26,7 +26,6 @@ namespace NGANHANG_PHANTAN_NHOM29
             try
             {
                 dS.EnforceConstraints = false;
-                Console.WriteLine(Program.connstr);
                 this.khachHangTableAdapter.Connection.ConnectionString = Program.connstr;
                 this.khachHangTableAdapter.Fill(this.dS.KhachHang);
                 macn = Program.mTenChiNhanh;
@@ -45,11 +44,10 @@ namespace NGANHANG_PHANTAN_NHOM29
                     KH_barThem.Enabled = KH_barHieuChinh.Enabled = KH_barXoa.Enabled = true;
                     KH_comboboxChiNhanh.Enabled = false;
                 }
-                KH_comboboxChiNhanh.SelectedIndex = 0;
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Lỗi dữ liệu khách hàng", "Xác nhận", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi dữ liệu khách hàng\n" + ex.Message, "Xác nhận", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -102,13 +100,14 @@ namespace NGANHANG_PHANTAN_NHOM29
             vitri = khachHangBindingSource.Position;
             panelControl2.Enabled = true;
             KH_textboxCMND.Focus();
+            pHAIComboBox.SelectedIndex = 0;
             khachHangBindingSource.AddNew();
+            pHAIComboBox.SelectedIndex = 1;
             KH_textboxChiNhanh.Text = macn;
             KH_barThem.Enabled = KH_barHieuChinh.Enabled = KH_barXoa.Enabled = KH_barTaiLai.Enabled = KH_barThoat.Enabled = false;
             KH_barLuu.Enabled = KH_barPhucHoi.Enabled = true;
             gridControl1.Enabled = KH_textboxChiNhanh.Enabled = false;
             buttonAdd_Clicked = true;
-            KH_comboboxPhai.SelectedIndex = 1;
         }
         private bool kiemTraSDT()
         {
@@ -126,7 +125,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             if (KH_textboxSoDienThoai.Text[0] != '0')
             {
-                MessageBox.Show("Số điện thoại nhân viên chưa đúng định dạng", "", MessageBoxButtons.OK);
+                MessageBox.Show("Số điện thoại nhân viên phải bắt đầu với số 0", "", MessageBoxButtons.OK);
                 KH_textboxSoDienThoai.Focus();
                 return false;
             }
@@ -147,6 +146,12 @@ namespace NGANHANG_PHANTAN_NHOM29
                 KH_textboxCMND.Focus();
                 return;
             }
+            if( KH_textboxCMND.Text.Length != 10)
+            {
+                MessageBox.Show("CMND phải đủ 10 kí tự", "Thông Báo", MessageBoxButtons.OK);
+                KH_textboxCMND.Focus();
+                return;
+            }
             if( KH_dateNgayCap.DateTime > DateTime.Now || KH_dateNgayCap.Text.Trim() == "")
             {
                 MessageBox.Show("Ngày cấp không hợp lệ!!!", "Xác Nhận", MessageBoxButtons.OK);
@@ -159,7 +164,19 @@ namespace NGANHANG_PHANTAN_NHOM29
                 KH_textboxHo.Focus();
                 return;
             }
-            if( KH_textboxTen.Text.Trim() == "" )
+            if (KH_textboxHo.Text.Any(char.IsNumber))
+            {
+                MessageBox.Show("Họ khách hàng không chứa số!!!", "Xác Nhận", MessageBoxButtons.OK);
+                KH_textboxHo.Focus();
+                return;
+            }
+            if(KH_textboxTen.Text.Any(char.IsNumber))
+            {
+                MessageBox.Show("Tên khách hàng không chứa số!!!", "Xác Nhận", MessageBoxButtons.OK);
+                KH_textboxHo.Focus();
+                return;
+            }
+            if ( KH_textboxTen.Text.Trim() == "" )
             {
                 MessageBox.Show("Tên khách hàng không được để trống!!!", "Xác Nhận", MessageBoxButtons.OK);
                 KH_textboxTen.Focus();
@@ -245,7 +262,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Lỗi xóa tài khoản", "Thông báo", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi xóa tài khoản\n" + ex.Message, "Thông báo", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -260,7 +277,7 @@ namespace NGANHANG_PHANTAN_NHOM29
                 Program.myReader.Close();
                 return;
             }
-            if( MessageBox.Show("Bạn có thật sự muốn xóa khách hàng " + cmnd + " ??", "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if( MessageBox.Show("Bạn có thật sự muốn xóa khách hàng :\nTên là : " + KH_textboxHo.Text + " " + KH_textboxTen.Text + "\nCMND = " + cmnd, "Xác nhận", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 try
                 {
@@ -289,6 +306,11 @@ namespace NGANHANG_PHANTAN_NHOM29
             panelControl2.Enabled = false;
             KH_barThem.Enabled = KH_barHieuChinh.Enabled = KH_barXoa.Enabled = KH_barTaiLai.Enabled = KH_barThoat.Enabled = true;
             KH_barLuu.Enabled = KH_barPhucHoi.Enabled = false;
+        }
+
+        private void pHAILabel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -88,7 +88,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch( Exception ex)
             {
-                MessageBox.Show("Lỗi kiểm tra nhân viên xóa chưa!!!", "Thông Báo", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi kiểm tra nhân viên xóa chưa!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return true;
             }
         }
@@ -131,7 +131,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Lỗi quá trình đăng nhập!!!", "Thông Baó", MessageBoxButtons.OK);
+                MessageBox.Show("Lỗi quá trình đăng nhập!!!\n" + ex.Message, "Thông Baó", MessageBoxButtons.OK);
                 return;
             }
         }

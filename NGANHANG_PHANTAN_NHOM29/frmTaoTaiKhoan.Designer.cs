@@ -82,7 +82,6 @@
             this.colTrangThaiXoa = new DevExpress.XtraGrid.Columns.GridColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.xóaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thayĐổiTàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.barManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
@@ -566,23 +565,16 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xóaToolStripMenuItem,
-            this.thayĐổiTàiKhoảnToolStripMenuItem});
+            this.xóaToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(201, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(105, 28);
             // 
             // xóaToolStripMenuItem
             // 
             this.xóaToolStripMenuItem.Name = "xóaToolStripMenuItem";
-            this.xóaToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
+            this.xóaToolStripMenuItem.Size = new System.Drawing.Size(104, 24);
             this.xóaToolStripMenuItem.Text = "Xóa";
             this.xóaToolStripMenuItem.Click += new System.EventHandler(this.xóaToolStripMenuItem_Click);
-            // 
-            // thayĐổiTàiKhoảnToolStripMenuItem
-            // 
-            this.thayĐổiTàiKhoảnToolStripMenuItem.Name = "thayĐổiTàiKhoảnToolStripMenuItem";
-            this.thayĐổiTàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(200, 24);
-            this.thayĐổiTàiKhoảnToolStripMenuItem.Text = "Thay đổi tài khoản";
             // 
             // frmTaoTaiKhoan
             // 
@@ -676,6 +668,5 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem xóaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem thayĐổiTàiKhoảnToolStripMenuItem;
     }
 }
