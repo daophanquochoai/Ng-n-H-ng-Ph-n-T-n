@@ -53,8 +53,8 @@ namespace NGANHANG_PHANTAN_NHOM29
             try
             {
                 Program.servername = LG_comboxChiNhanh.SelectedValue.ToString();
-                Console.WriteLine(Program.servername);
-            }catch( Exception ex)
+            }
+            catch( Exception ex)
             {
                 MessageBox.Show("\nLỗi thay đổi servername bằng combobox\n " + ex.Message, "", MessageBoxButtons.OK);
             }
@@ -108,26 +108,53 @@ namespace NGANHANG_PHANTAN_NHOM29
                 Program.mChiNhanh = LG_comboxChiNhanh.SelectedIndex;
                 Program.mloginDN = Program.mlogin;
                 Program.passwordDN = Program.password;
-                // SP đăng nhập
-                string strDangNhap = "EXEC [dbo].[SP_LayThongTinNhanVien] '" + Program.mlogin + "'";
-
-                Program.myReader = Program.ExecSqlDataReader(strDangNhap);
-                if (Program.myReader == null) return;
-                Program.myReader.Read();
-                // myReader đọc trả ra giá trị
-                Program.username = Program.myReader.GetString(0);
-                if (Convert.IsDBNull(Program.username))
+                if ( !LG_textboxTaiKhoan.Text.All(Char.IsNumber))
                 {
-                    MessageBox.Show("Login bạn nhập không có quyền truy cập dữ liệu.\nBạn xem lại user name và password.\n ", "", MessageBoxButtons.OK);
-                    return;
+                    // SP đăng nhập
+                    string strDangNhap = "EXEC [dbo].[SP_LayThongTinNhanVien] '" + Program.mlogin + "'";
+
+                    Program.myReader = Program.ExecSqlDataReader(strDangNhap);
+                    if (Program.myReader == null) return;
+                    Program.myReader.Read();
+                    // myReader đọc trả ra giá trị
+                    Program.username = Program.myReader.GetString(0);
+                    if (!Convert.IsDBNull(Program.username))
+                    {
+                        Program.mHoten = Program.myReader.GetString(1);
+                        Program.mGroup = Program.myReader.GetString(2);
+                        Program.mTenChiNhanh = LG_comboxChiNhanh.Text;
+                        Program.myReader.Close();
+                        if (KiemTraNhanVienDaXoa(Program.username)) return;
+                        MessageBox.Show("Đăng nhập thành công tài khoản \n- Mã NV: " + Program.username + "\n- Tên: " + Program.mHoten + "\n- Nhóm: " + Program.mGroup, "", MessageBoxButtons.OK);
+                        Program.frmChinh.hienThiTool();
+                        return;
+                    }
                 }
-                Program.mHoten = Program.myReader.GetString(1);
-                Program.mGroup = Program.myReader.GetString(2);
-                Program.mTenChiNhanh = LG_comboxChiNhanh.Text;
-                Program.myReader.Close();
-                if (KiemTraNhanVienDaXoa(Program.username)) return;
-                MessageBox.Show("Đăng nhập thành công tài khoản \n- Mã NV: " + Program.username + "\n- Tên: " + Program.mHoten + "\n- Nhóm: " + Program.mGroup, "", MessageBoxButtons.OK);
-                Program.frmChinh.hienThiTool();
+                else
+                {
+                    // đăng nhập khách hàng
+                    string strDangNhap = "EXEC [dbo].[SP_LayThongTinKhachHang] '" + Program.mlogin + "'";
+
+                    Program.myReader = Program.ExecSqlDataReader(strDangNhap);
+                    if (Program.myReader == null) return;
+                    Program.myReader.Read();
+                    // myReader đọc trả ra giá trị
+                    Program.username = Program.myReader.GetString(0);
+                    Console.WriteLine(Program.username);
+                    if (!Convert.IsDBNull(Program.username))
+                    {
+                        Program.mHoten = Program.myReader.GetString(1);
+                        Program.mGroup = Program.myReader.GetString(2);
+                        Program.mTenChiNhanh = LG_comboxChiNhanh.Text;
+                        Program.myReader.Close();
+                        if (KiemTraNhanVienDaXoa(Program.username)) return;
+                        MessageBox.Show("Đăng nhập thành công tài khoản \n- CMND : " + Program.username + "\n- Tên: " + Program.mHoten + "\n- Nhóm: " + Program.mGroup, "", MessageBoxButtons.OK);
+                        Program.frmChinh.hienThiTool();
+                        return;
+                    }
+                }
+                MessageBox.Show("Login bạn nhập không có quyền truy cập dữ liệu.\nBạn xem lại user name và password.\n ", "", MessageBoxButtons.OK);
+                return;
             }
             catch(Exception ex)
             {

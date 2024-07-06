@@ -418,8 +418,14 @@ namespace NGANHANG_PHANTAN_NHOM29
         {
             try
             {
+                vitri = nhanVienBindingSource.Position;
                 string manv = ((DataRowView)nhanVienBindingSource[vitri])["MANV"].ToString();
-                if( gD_GOIRUTBindingSource.Count > 0)
+                if (manv.Trim() == Program.username.Trim())
+                {
+                    MessageBox.Show("Không thể xóa chính bạn", "Thông Báo", MessageBoxButtons.OK);
+                    return;
+                }
+                    if ( gD_GOIRUTBindingSource.Count > 0)
                 {
                     MessageBox.Show("Không thể xóa nhân viên vì đã thực hiện giao dịch", "Thông báo", MessageBoxButtons.OK);
                     return;
@@ -434,7 +440,8 @@ namespace NGANHANG_PHANTAN_NHOM29
                     MessageBox.Show("Nhân viên không thể xoá vì đã mở tài khoản login!!", "", MessageBoxButtons.OK);
                     return;
                 }
-                if (MessageBox.Show("Bạn có thật sự muốn xoá nhân viên " + manv + " ??", "Xác nhận",
+                string hvt = ((DataRowView)nhanVienBindingSource[vitri])["HO"].ToString() + " " + ((DataRowView)nhanVienBindingSource[vitri])["TEN"].ToString();
+                if (MessageBox.Show("Bạn có thật sự muốn xoá nhân viên " + manv.Trim() + " ??\n Họ và tên : " + hvt, "Xác nhận",
                 MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
@@ -474,9 +481,19 @@ namespace NGANHANG_PHANTAN_NHOM29
 
         private void NV_ChuyenNV_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            String trangthaixoa = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["TRANGTHAIXOA"].ToString();
+            if(trangthaixoa.Equals("1"))
+            {
+                MessageBox.Show("Nhân viên đã bị xóa!!!", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }
             string manv = ((DataRowView)nhanVienBindingSource[nhanVienBindingSource.Position])["MANV"].ToString();
-
-            if( taoMaNV() == null)
+            if ( manv.Trim() == Program.username.Trim())
+            {
+                MessageBox.Show("Không thể chuyển chính bạn!!!", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }
+            if ( taoMaNV() == null)
             {
                 MessageBox.Show("Lỗi tạo mã nhân viên!!", "Thông Báo", MessageBoxButtons.OK);
                 return;

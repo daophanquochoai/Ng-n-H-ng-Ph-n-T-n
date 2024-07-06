@@ -13,7 +13,7 @@ namespace NGANHANG_PHANTAN_NHOM29
     {
         public static SqlConnection conn = new SqlConnection();
         public static String connstr;
-        public static String connstr_publisher = "Data Source= MSI\\SIDE;Initial Catalog=NGANHANG;integrated security=true";
+        public static String connstr_publisher = "Data Source= MSI\\MAIN;Initial Catalog=NGANHANG;integrated security=true";
         public static SqlDataReader myReader;
         public static String servername = "";
         public static String servername1 = "MSI\\SIDE1";

@@ -40,7 +40,7 @@ namespace NGANHANG_PHANTAN_NHOM29
                 TK_comboChiNhanh.DisplayMember = "TENCN";
                 TK_comboChiNhanh.ValueMember = "TENSERVER";
                 TK_comboChiNhanh.SelectedIndex = Program.mChiNhanh;
-                groupBox1.Enabled = false;
+                TTK_matkhaucu.Enabled = false;
                 TK_barPhucHoi.Enabled = false;
                 TK_barTaoTaiKhoan.Enabled = TK_barThoat.Enabled = true;
 
@@ -123,7 +123,7 @@ namespace NGANHANG_PHANTAN_NHOM29
                     + "\n Tên là : " + hovaten;
                 panelControl1.Enabled = frmCreateLogin_GetLoginsOfBranchGridControl.Enabled = false;
                 frmCreateLogin_GetEmployeeNotHaveLoginGridControl.Enabled = false;
-                groupBox1.Enabled = true;
+                TTK_matkhaucu.Enabled = true;
                 TK_barPhucHoi.Enabled = true;
                 TK_barTaoTaiKhoan.Enabled = TK_barTaiLaiTrang.Enabled = false;
             }
@@ -135,17 +135,23 @@ namespace NGANHANG_PHANTAN_NHOM29
         }
         private bool KiemTraLoginBiTrung( string textlogin)
         {
-            Program.myReader.Close();
-            string cmd = "EXEC frmCreateLogin_DuplicateLOGIN '" + textlogin + "','" + Program.mGroup + "'";
-            Program.myReader = Program.ExecSqlDataReader(cmd);
-            if(Program.myReader.HasRows)
+            try
             {
                 Program.myReader.Close();
-                return true;
-            }
-            else
+                string cmd = "EXEC frmCreateLogin_DuplicateLOGIN '" + textlogin + "','" + Program.mGroup + "'";
+                Program.myReader = Program.ExecSqlDataReader(cmd);
+                if (Program.myReader.HasRows)
+                {
+                    Program.myReader.Close();
+                    return true;
+                }
+                else
+                {
+                    Program.myReader.Close();
+                    return false;
+                }
+            }catch ( Exception ex)
             {
-                Program.myReader.Close();
                 return false;
             }
         }
@@ -157,6 +163,11 @@ namespace NGANHANG_PHANTAN_NHOM29
         private void TK_buttonTaoTaiKhoan_Click(object sender, EventArgs e)
         {
             String manv = ((DataRowView)frmCreateLogin_GetEmployeeNotHaveLoginBindingSource[frmCreateLogin_GetEmployeeNotHaveLoginBindingSource.Position])["MANV"].ToString();
+            if ( TK_textboxTaiKhoan.Text.All(Char.IsNumber) )
+            {
+                MessageBox.Show("Tài khoản phải có kí tự", "Thông Báo", MessageBoxButtons.OK);
+                return;
+            }
             if( TK_textboxTaiKhoan.ToString().Trim() == "" || TK_textboxMatKhau.Text.ToString().Trim() == "")
             {
                 MessageBox.Show("Tài khoản và mật khẩu đang để trống", "Thông Báo", MessageBoxButtons.OK);
@@ -173,7 +184,7 @@ namespace NGANHANG_PHANTAN_NHOM29
             frmCreateLogin_GetEmployeeNotHaveLoginGridControl.Enabled = frmCreateLogin_GetLoginsOfBranchGridControl.Enabled = true;
             this.frmCreateLogin_GetEmployeeNotHaveLoginTableAdapter.Fill(this.dS.frmCreateLogin_GetEmployeeNotHaveLogin);
             this.frmCreateLogin_GetLoginsOfBranchTableAdapter.Fill(this.dS.frmCreateLogin_GetLoginsOfBranch, Program.mGroup);
-            groupBox1.Enabled = false;
+            TTK_matkhaucu.Enabled = false;
             TK_barPhucHoi.Enabled = false;
             TK_barTaoTaiKhoan.Enabled = true;
             TK_barTaiLaiTrang.Enabled = true;
@@ -245,11 +256,6 @@ namespace NGANHANG_PHANTAN_NHOM29
             }
         }
 
-        private void TK_barTaiLaiTrang_ItemDoubleClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
-        {
-
-        }
-
         private void TK_barPhucHoi_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             try
@@ -257,9 +263,11 @@ namespace NGANHANG_PHANTAN_NHOM29
                 this.frmCreateLogin_GetEmployeeNotHaveLoginBindingSource.CancelEdit();
                 this.frmCreateLogin_GetLoginsOfBranchBindingSource.CancelEdit();
                 frmCreateLogin_GetEmployeeNotHaveLoginGridControl.Enabled = frmCreateLogin_GetLoginsOfBranchGridControl.Enabled = true;
-                groupBox1.Enabled = false;
+                TTK_matkhaucu.Enabled = false;
                 TK_textboxTaiKhoan.Text = "";
                 TK_textboxMatKhau.Text = "";
+                TK_textboxMatKhau.Location = new Point(115, 92);
+                label1.Location = new Point(10, 95);
                 TK_barTaoTaiKhoan.Enabled = TK_barTaiLaiTrang.Enabled = true;
                 TK_barPhucHoi.Enabled = false;
                 memo.Text = "Chọn nhân viên để tạo tài khoản";
@@ -269,6 +277,53 @@ namespace NGANHANG_PHANTAN_NHOM29
                 MessageBox.Show("Lỗi phục hồi!!!\n" + ex.Message, "Thông Báo", MessageBoxButtons.OK);
                 return;
             }
+        }
+
+        private void loToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.frmCreateLogin_GetLoginsOfBranchTableAdapter.Fill(this.dS.frmCreateLogin_GetLoginsOfBranch, Program.mGroup);
+            }catch( Exception ex)
+            {
+                MessageBox.Show("Lỗi Reload : " + ex.Message, "Error", MessageBoxButtons.OK);
+                return;
+            }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmThayDoiMatKhauToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String role = ((DataRowView)frmCreateLogin_GetLoginsOfBranchBindingSource[frmCreateLogin_GetLoginsOfBranchBindingSource.Position])["ROLE"].ToString();
+                if( role != Program.mGroup)
+                {
+                    MessageBox.Show("Bạn không thể thay đổi tài khoản này","Thông báo", MessageBoxButtons.OK);
+                    return;
+                }
+                String tenlogin = ((DataRowView)frmCreateLogin_GetLoginsOfBranchBindingSource[frmCreateLogin_GetLoginsOfBranchBindingSource.Position])["TENLOGIN"].ToString();
+                Console.WriteLine(tenlogin);
+                frmCreateLogin_GetEmployeeNotHaveLoginGridControl.Enabled = false;
+                frmCreateLogin_GetLoginsOfBranchGridControl.Enabled = false;
+                TK_barPhucHoi.Enabled = true;
+                TK_barTaoTaiKhoan.Enabled = false;
+                TK_barTaiLaiTrang.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi Xử Lý : " + ex.Message, "Error", MessageBoxButtons.OK);
+                return;
+            }
+        }
+
+        private void TK_barThoat_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            Close();
         }
     }
 }

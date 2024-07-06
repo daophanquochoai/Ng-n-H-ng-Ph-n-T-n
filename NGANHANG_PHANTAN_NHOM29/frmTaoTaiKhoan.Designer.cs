@@ -61,7 +61,7 @@
             this.colMANV1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colHOTEN = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colROLE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.TTK_matkhaucu = new System.Windows.Forms.GroupBox();
             this.TK_buttonTaoTaiKhoan = new System.Windows.Forms.Button();
             this.TK_textboxMatKhau = new System.Windows.Forms.TextBox();
             this.TK_textboxTaiKhoan = new System.Windows.Forms.TextBox();
@@ -91,7 +91,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetLoginsOfBranchBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetLoginsOfBranchGridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.TTK_matkhaucu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetEmployeeNotHaveLoginBindingSource)).BeginInit();
@@ -161,7 +161,6 @@
             this.TK_barTaiLaiTrang.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("TK_barTaiLaiTrang.ImageOptions.LargeImage")));
             this.TK_barTaiLaiTrang.Name = "TK_barTaiLaiTrang";
             this.TK_barTaiLaiTrang.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barTaiLaiTrang_ItemClick);
-            this.TK_barTaiLaiTrang.ItemDoubleClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barTaiLaiTrang_ItemDoubleClick);
             // 
             // TK_barPhucHoi
             // 
@@ -179,6 +178,7 @@
             this.TK_barThoat.ImageOptions.Image = ((System.Drawing.Image)(resources.GetObject("TK_barThoat.ImageOptions.Image")));
             this.TK_barThoat.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("TK_barThoat.ImageOptions.LargeImage")));
             this.TK_barThoat.Name = "TK_barThoat";
+            this.TK_barThoat.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.TK_barThoat_ItemClick);
             // 
             // bar3
             // 
@@ -256,6 +256,7 @@
             // 
             // TK_comboChiNhanh
             // 
+            this.TK_comboChiNhanh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TK_comboChiNhanh.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TK_comboChiNhanh.FormattingEnabled = true;
             this.TK_comboChiNhanh.Location = new System.Drawing.Point(191, 20);
@@ -382,28 +383,28 @@
             this.colROLE.Visible = true;
             this.colROLE.VisibleIndex = 3;
             // 
-            // groupBox1
+            // TTK_matkhaucu
             // 
-            this.groupBox1.Controls.Add(this.TK_buttonTaoTaiKhoan);
-            this.groupBox1.Controls.Add(this.TK_textboxMatKhau);
-            this.groupBox1.Controls.Add(this.TK_textboxTaiKhoan);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(633, 108);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(555, 269);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.TTK_matkhaucu.Controls.Add(this.TK_buttonTaoTaiKhoan);
+            this.TTK_matkhaucu.Controls.Add(this.TK_textboxMatKhau);
+            this.TTK_matkhaucu.Controls.Add(this.TK_textboxTaiKhoan);
+            this.TTK_matkhaucu.Controls.Add(this.label3);
+            this.TTK_matkhaucu.Controls.Add(this.label1);
+            this.TTK_matkhaucu.Location = new System.Drawing.Point(633, 108);
+            this.TTK_matkhaucu.Name = "TTK_matkhaucu";
+            this.TTK_matkhaucu.Size = new System.Drawing.Size(555, 269);
+            this.TTK_matkhaucu.TabIndex = 2;
+            this.TTK_matkhaucu.TabStop = false;
+            this.TTK_matkhaucu.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // TK_buttonTaoTaiKhoan
             // 
             this.TK_buttonTaoTaiKhoan.BackColor = System.Drawing.Color.Lime;
             this.TK_buttonTaoTaiKhoan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TK_buttonTaoTaiKhoan.ForeColor = System.Drawing.Color.White;
-            this.TK_buttonTaoTaiKhoan.Location = new System.Drawing.Point(237, 207);
+            this.TK_buttonTaoTaiKhoan.Location = new System.Drawing.Point(245, 196);
             this.TK_buttonTaoTaiKhoan.Name = "TK_buttonTaoTaiKhoan";
-            this.TK_buttonTaoTaiKhoan.Size = new System.Drawing.Size(186, 43);
+            this.TK_buttonTaoTaiKhoan.Size = new System.Drawing.Size(173, 43);
             this.TK_buttonTaoTaiKhoan.TabIndex = 4;
             this.TK_buttonTaoTaiKhoan.Text = "Tạo Tài Khoản";
             this.TK_buttonTaoTaiKhoan.UseVisualStyleBackColor = false;
@@ -412,7 +413,7 @@
             // TK_textboxMatKhau
             // 
             this.TK_textboxMatKhau.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TK_textboxMatKhau.Location = new System.Drawing.Point(154, 130);
+            this.TK_textboxMatKhau.Location = new System.Drawing.Point(154, 121);
             this.TK_textboxMatKhau.Name = "TK_textboxMatKhau";
             this.TK_textboxMatKhau.Size = new System.Drawing.Size(364, 34);
             this.TK_textboxMatKhau.TabIndex = 3;
@@ -421,7 +422,7 @@
             // TK_textboxTaiKhoan
             // 
             this.TK_textboxTaiKhoan.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TK_textboxTaiKhoan.Location = new System.Drawing.Point(154, 57);
+            this.TK_textboxTaiKhoan.Location = new System.Drawing.Point(154, 35);
             this.TK_textboxTaiKhoan.Name = "TK_textboxTaiKhoan";
             this.TK_textboxTaiKhoan.Size = new System.Drawing.Size(364, 34);
             this.TK_textboxTaiKhoan.TabIndex = 2;
@@ -430,7 +431,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(31, 60);
+            this.label3.Location = new System.Drawing.Point(22, 35);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(105, 28);
             this.label3.TabIndex = 1;
@@ -440,7 +441,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(32, 133);
+            this.label1.Location = new System.Drawing.Point(23, 121);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 28);
             this.label1.TabIndex = 0;
@@ -448,7 +449,7 @@
             // 
             // panelControl2
             // 
-            this.panelControl2.Controls.Add(this.groupBox1);
+            this.panelControl2.Controls.Add(this.TTK_matkhaucu);
             this.panelControl2.Controls.Add(this.frmCreateLogin_GetLoginsOfBranchGridControl);
             this.panelControl2.Controls.Add(this.label2);
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -601,8 +602,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetLoginsOfBranchBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.frmCreateLogin_GetLoginsOfBranchGridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.TTK_matkhaucu.ResumeLayout(false);
+            this.TTK_matkhaucu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
             this.panelControl2.PerformLayout();
@@ -639,7 +640,7 @@
         private System.Windows.Forms.BindingSource frmCreateLogin_GetLoginsOfBranchBindingSource;
         private DSTableAdapters.frmCreateLogin_GetLoginsOfBranchTableAdapter frmCreateLogin_GetLoginsOfBranchTableAdapter;
         private DevExpress.XtraEditors.PanelControl panelControl2;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox TTK_matkhaucu;
         private System.Windows.Forms.Button TK_buttonTaoTaiKhoan;
         private System.Windows.Forms.TextBox TK_textboxMatKhau;
         private System.Windows.Forms.TextBox TK_textboxTaiKhoan;

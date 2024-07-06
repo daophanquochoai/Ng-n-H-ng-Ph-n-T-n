@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using DevExpress.XtraReports.UI;
+using System.Windows;
 
 namespace NGANHANG_PHANTAN_NHOM29
 {
@@ -67,6 +68,8 @@ namespace NGANHANG_PHANTAN_NHOM29
             else
             {
                 BC.Visible = true;
+                BC_buttonTKTTKH.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+                BC_buttonDSMTK.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
             }
 }
 
